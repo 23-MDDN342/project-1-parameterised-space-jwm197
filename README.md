@@ -1,1 +1,1 @@
-Here is a first attempt for what fractal trees will look like however I will need to edit this further.
+Improved the fractal trees

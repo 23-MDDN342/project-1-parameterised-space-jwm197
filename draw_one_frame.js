@@ -67,40 +67,91 @@ function drawTree(){
 
 	
 	
-	let trunkHeightDivider=20;
+	let trunkHeight=canvasHeight/30;
 
 	let treeX=
 	//width/2;
 	map(frameNo,0,24,canvasWidth/2,0);
 	
-	line(treeX,groundY,treeX,groundY-canvasHeight/trunkHeightDivider);
-	drawBranch(treeX,groundY-canvasHeight/trunkHeightDivider,25,trunkHeightDivider,1,1);
-	drawBranch(treeX,groundY-canvasHeight/trunkHeightDivider,25,trunkHeightDivider,1,-1);
-
+	line(treeX,groundY,treeX,groundY-trunkHeight);
+	push();
+	translate(treeX,groundY);
+	drawBranch(trunkHeight,0);
+	pop();
 
 	
 	//rectMode(CENTER);
 	//rect(treeX,groundY-canvasHeight/20,canvasWidth/20,canvasHeight/10);
 	push();
 	translate(width/2,0);
-	line(treeX,groundY,treeX,groundY-canvasHeight/trunkHeightDivider);
-	drawBranch(treeX,groundY-canvasHeight/trunkHeightDivider,25,trunkHeightDivider,1,1);
-	drawBranch(treeX,groundY-canvasHeight/trunkHeightDivider,25,trunkHeightDivider,1,-1);
-	//rect(treeX+width/2,groundY-canvasHeight/20,canvasWidth/20,canvasHeight/10);
+	// line(treeX,groundY,treeX,groundY-canvasHeight/trunkHeightDivider);
+	// drawBranch(treeX,groundY-canvasHeight/trunkHeightDivider,25,trunkHeightDivider,1,1);
+	// drawBranch(treeX,groundY-canvasHeight/trunkHeightDivider,25,trunkHeightDivider,1,-1);
+	// //rect(treeX+width/2,groundY-canvasHeight/20,canvasWidth/20,canvasHeight/10);
+	line(treeX,groundY,treeX,groundY-trunkHeight);
+	push();
+	translate(treeX,groundY);
+	drawBranch(trunkHeight,0);
+	pop();
 	pop();
 
 }
-function drawBranch(x,y,rotation,branchDivider,depth,direction){
-	//push();
-	//translate(0,0);
-	//rotate(rotation);
-	let x2=x+direction*(sin(rotation)*(y-canvasHeight/branchDivider));
-	let y2=cos(rotation)*y-canvasHeight/branchDivider;
-	line(x,y,x2,y2);
-	if(depth<4){
-		drawBranch(x2,y2,rotation+25,branchDivider*2, depth+1,-1);
-		drawBranch(x2,y2,rotation+25,branchDivider*2,depth+1,+1);
+function drawBranch(branchLength,numOfBranches){
+	let angle=340;
+	line(0,0,0,-branchLength);
+	translate(0,-branchLength);
+	if(numOfBranches<5){
+		push();
+		rotate(angle);
+		drawBranch(branchLength*.8,numOfBranches+1);
+		pop();
+		push();
+		rotate(-angle);
+		drawBranch(branchLength*.8,numOfBranches+1);
+		pop();
 	}
-	
-	//pop();
 }
+// function drawTree(){
+// 	// let treeX=map(cur_frac,0,1,canvasWidth+canvasWidth/20,0-canvasWidth/20);
+// 	// rectMode(CENTER);
+// 	// rect(treeX,groundY-canvasHeight/20,canvasWidth/20,canvasHeight/10);
+
+	
+	
+// 	let trunkHeightDivider=20;
+
+// 	let treeX=
+// 	//width/2;
+// 	map(frameNo,0,24,canvasWidth/2,0);
+	
+// 	line(treeX,groundY,treeX,groundY-canvasHeight/trunkHeightDivider);
+// 	drawBranch(treeX,groundY-canvasHeight/trunkHeightDivider,25,trunkHeightDivider,1,1);
+// 	drawBranch(treeX,groundY-canvasHeight/trunkHeightDivider,25,trunkHeightDivider,1,-1);
+
+
+	
+// 	//rectMode(CENTER);
+// 	//rect(treeX,groundY-canvasHeight/20,canvasWidth/20,canvasHeight/10);
+// 	push();
+// 	translate(width/2,0);
+// 	line(treeX,groundY,treeX,groundY-canvasHeight/trunkHeightDivider);
+// 	drawBranch(treeX,groundY-canvasHeight/trunkHeightDivider,25,trunkHeightDivider,1,1);
+// 	drawBranch(treeX,groundY-canvasHeight/trunkHeightDivider,25,trunkHeightDivider,1,-1);
+// 	//rect(treeX+width/2,groundY-canvasHeight/20,canvasWidth/20,canvasHeight/10);
+// 	pop();
+
+// }
+// function drawBranch(x,y,rotation,branchDivider,depth,direction){
+// 	//push();
+// 	//translate(0,0);
+// 	//rotate(rotation);
+// 	let x2=x+direction*(sin(rotation)*(y-canvasHeight/branchDivider));
+// 	let y2=cos(rotation)*y-canvasHeight/branchDivider;
+// 	line(x,y,x2,y2);
+// 	if(depth<4){
+// 		drawBranch(x2,y2,rotation+25,branchDivider*2, depth+1,-1);
+// 		drawBranch(x2,y2,rotation+25,branchDivider*2,depth+1,+1);
+// 	}
+	
+// 	//pop();
+// }
