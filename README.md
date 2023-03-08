@@ -1,1 +1,1 @@
-I have reblocked my scene by removing the score and adding second obstical to jump over as well as lowering the ground level.
+Here is a first attempt for what fractal trees will look like however I will need to edit this further.
