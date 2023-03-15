@@ -40,7 +40,30 @@ function drawCharacter(){
 	else{
 		characterY=groundY-(canvasHeight/10);
 	}
-	rect(width/5,characterY,width/20,canvasHeight/5);
+
+	
+	ellipse(width/5.2,characterY+canvasHeight/18,canvasHeight/20,width/24);
+	//push();
+	// translate (0,0);
+	// rotate(-45);
+	// rect(width/5,characterY,width/20,canvasHeight/20,20);
+	// pop();
+// 	beginShape();
+
+// curveVertex(width/5,characterY);
+// curveVertex(84, 91);
+// curveVertex(68, 19);
+// curveVertex(21, 17);
+// curveVertex(32, 91);
+// curveVertex(32, 91);
+// endShape();
+	
+rect(width/5,characterY,width/24,canvasHeight/20,20);
+	ellipse(width/5-width/80, characterY, width/80);
+	ellipse(width/5-width/80, characterY, width/200);
+	line(width/5,characterY+canvasHeight/50,(width/5)+(width/63), characterY+canvasHeight/50);
+
+//rect(width/5,characterY,width/20,canvasHeight/5);
 }
 function drawGround(cur_frac){
 	line(0, groundY, width, groundY);
