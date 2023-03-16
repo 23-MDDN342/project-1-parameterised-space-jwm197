@@ -40,57 +40,41 @@ function drawCharacter(){
 	else{
 		characterY=groundY-(canvasHeight/10);
 	}
-
+	//ellipse(width/5,characterY-canvasHeight/50,width/30);//top dome
 	
-	ellipse(width/5.2,characterY+canvasHeight/18,canvasHeight/20,width/24);
-	//push();
-	// translate (0,0);
-	// rotate(-45);
-	// rect(width/5,characterY,width/20,canvasHeight/20,20);
-	// pop();
-// 	beginShape();
-
-// curveVertex(width/5,characterY);
-// curveVertex(84, 91);
-// curveVertex(68, 19);
-// curveVertex(21, 17);
-// curveVertex(32, 91);
-// curveVertex(32, 91);
-// endShape();
+	ellipse(width/5,characterY+canvasHeight/50,width/50,width/60);//bottom dome
+	ellipse(width/5,characterY,width/10,canvasHeight/30);//main body
+	arc(width/5,characterY-canvasHeight/60,width/30,width/30,160,20,CHORD);//top dome
+	//ellipse()
+// 	ellipse(width/5.2,characterY+canvasHeight/18,canvasHeight/20,width/24);//body 
+// 	curve(width, 5, 26, 73, 24, 73, 61);
 	
-rect(width/5,characterY,width/24,canvasHeight/20,20);
-	ellipse(width/5-width/80, characterY, width/80);
-	ellipse(width/5-width/80, characterY, width/200);
-	line(width/5,characterY+canvasHeight/50,(width/5)+(width/63), characterY+canvasHeight/50);
+// //head:
+// rect(width/5,characterY,width/24,canvasHeight/20,20);//head outline
+// 	ellipse(width/5-width/80, characterY, width/80);//outer eye
+// 	ellipse(width/5-width/80, characterY, width/200);//inner eye
+// 	line(width/5,characterY+canvasHeight/50,(width/5)+(width/63), characterY+canvasHeight/50);//mouth
 
-//rect(width/5,characterY,width/20,canvasHeight/5);
+// //rect(width/5,characterY,width/20,canvasHeight/5);
 }
 function drawGround(cur_frac){
 	line(0, groundY, width, groundY);
 
+	//code adapted from the in class noise example 
 	let mainColor = color(255,255,255); // white
-	let backupColor = color(230,230,230); // black
-	
-	
+	let backupColor = color(230,230,230); // grey
 	let noiseColor;
-	let noiseyColor; 
-	let moveXMap;
-	
-	
-	let orbSize = width / 20
-	let spacingSize = width/100;
-	
-	//////////////////////////////////////////////
+	let pixelSize = width/50;//100
 	fill(mainColor);
 	rectMode(CORNER);
-	for(let accross = 0; accross <=width/spacingSize; accross++ ){
-		for(let down = 0; down +1 < height /spacingSize; down++){		
+	for(let x = 0; x <=width/pixelSize; x++ ){
+		for(let y = 0; y +1 < height /pixelSize; y++){		
 			
-		noiseColor = getNoiseValue(spacingSize*accross,spacingSize*down, 0.8, "noiseColor",0,1, 200 );
-		noiseyLerp = lerpColor(mainColor,backupColor,noiseColor);  // https://p5js.org/reference/#/p5/lerpColor
-		fill(noiseyLerp);
+		noiseColor = getNoiseValue(pixelSize*x,pixelSize*y, 0.8, "noiseColor",0,1, 200 );
+		noiseLerp = lerpColor(mainColor,backupColor,noiseColor);
+		fill(noiseLerp);
 		noStroke();
-		rect(spacingSize*accross,groundY+spacingSize*down ,spacingSize);
+		rect(pixelSize*x,groundY+pixelSize*y ,pixelSize);
 		}
 	}
 }
