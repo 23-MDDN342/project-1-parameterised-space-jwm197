@@ -1,1 +1,1 @@
-I have started making a cute dinosaur as the character
+I swapped the dinosaur for a space ship which I think works way better and also helps my own originality. It was suggested as part of crit and I think it works so much better 
