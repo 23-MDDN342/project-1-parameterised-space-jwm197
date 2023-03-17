@@ -6,11 +6,10 @@ function draw_one_frame(cur_frac) {
 	fill(255,255,255);
 	rectMode(CORNER);
 	rect(0,0,width,height);
-	//rectMode(CENTER);
 	
 	push(); 
 	translate(0, canvasHeight/6);
-	//fill(0,0,0);
+	
 	drawCharacter();
 	drawGround();
 	drawTree();
@@ -40,22 +39,34 @@ function drawCharacter(){
 	else{
 		characterY=groundY-(canvasHeight/10);
 	}
-	//ellipse(width/5,characterY-canvasHeight/50,width/30);//top dome
 	
-	ellipse(width/5,characterY+canvasHeight/50,width/50,width/60);//bottom dome
-	ellipse(width/5,characterY,width/10,canvasHeight/30);//main body
-	arc(width/5,characterY-canvasHeight/60,width/30,width/30,160,20,CHORD);//top dome
-	//ellipse()
-// 	ellipse(width/5.2,characterY+canvasHeight/18,canvasHeight/20,width/24);//body 
-// 	curve(width, 5, 26, 73, 24, 73, 61);
+	let shipX=width/5;
+	let shipWidth=width/10;
+	let lightDomewidth=width/50;
+	ellipse(shipX,characterY+canvasHeight/50,lightDomewidth,width/60);//bottom dome
+	ellipse(shipX,characterY,shipWidth,canvasHeight/30);//main body
+	arc(shipX,characterY-canvasHeight/60,width/30,width/30,160,20,CHORD);//top dome
 	
-// //head:
-// rect(width/5,characterY,width/24,canvasHeight/20,20);//head outline
-// 	ellipse(width/5-width/80, characterY, width/80);//outer eye
-// 	ellipse(width/5-width/80, characterY, width/200);//inner eye
-// 	line(width/5,characterY+canvasHeight/50,(width/5)+(width/63), characterY+canvasHeight/50);//mouth
+	//small circles on the body:
+	ellipse(shipX,characterY+canvasHeight/180,width/150);// centre small circle
+	ellipse(shipX-width/40,characterY,width/150);//left
+	ellipse(shipX+width/40,characterY,width/150);//right
 
-// //rect(width/5,characterY,width/20,canvasHeight/5);
+	// //fill(242, 226, 5);
+	// beginShape();
+
+	// endShape();
+	let scanlineY;
+	if(frameNo<12){
+		scanlineY=map(frameNo, 0, 11, 0, canvasHeight/25);
+	}
+	else {
+		scanlineY=map(frameNo, 12, 24,canvasHeight/25,0);
+	}
+	line(shipX+shipWidth/2,characterY,shipX+shipWidth,characterY+scanlineY);
+	line(shipX+shipWidth/2,characterY,shipX+shipWidth,characterY-scanlineY);
+
+
 }
 function drawGround(cur_frac){
 	line(0, groundY, width, groundY);
@@ -68,7 +79,7 @@ function drawGround(cur_frac){
 	fill(mainColor);
 	rectMode(CORNER);
 	for(let x = 0; x <=width/pixelSize; x++ ){
-		for(let y = 0; y +1 < height /pixelSize; y++){		
+		for(let y = 0; y +1 < (height-groundY-canvasHeight/7) /pixelSize; y++){		
 			
 		noiseColor = getNoiseValue(pixelSize*x,pixelSize*y, 0.8, "noiseColor",0,1, 200 );
 		noiseLerp = lerpColor(mainColor,backupColor,noiseColor);
