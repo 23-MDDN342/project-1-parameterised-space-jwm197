@@ -15,9 +15,25 @@ function draw_one_frame(cur_frac) {
 	drawCharacter();
 	drawGround();
 	pop();
-	
+	drawCloud();
 }
 function drawCloud(){
+	let numOfClouds=4;
+	
+	let cloudY=canvasHeight/4;
+	fill(240);
+	noStroke();
+	
+	for(let i=-1;i<numOfClouds;i++){
+		let cloudX=map(frameNo,0,24,canvasWidth/numOfClouds+i*canvasWidth/numOfClouds,+i*canvasWidth/numOfClouds);
+		push();
+		translate(cloudX,cloudY);
+		ellipse(+width/40,-canvasHeight/200,canvasHeight/30);
+		ellipse(+width/75,-canvasHeight/200,canvasHeight/40);
+		rect(0,0,width/25,canvasHeight/35,20);
+		pop();
+	}
+	
 
 }
 function drawCharacter(){
@@ -78,7 +94,7 @@ function drawGround(cur_frac){
 	
 
 	//code adapted from the in class noise example 
-	let mainColor = color(255,255,255); // white
+	let mainColor = color(255); // white
 	let backupColor = color(230,230,230); // grey
 	let noiseColor;
 	let pixelSize = width/50;//100
@@ -103,7 +119,7 @@ function drawTree(){
 	let trunkHeight=canvasHeight/30;
 	let treeX=map(frameNo,0,24,canvasWidth/2,0-canvasWidth/20);
 	strokeWeight(width/500);
-	stroke(0,0,0);
+	stroke(0);
 	line(treeX,groundY,treeX,groundY-trunkHeight);
 	push();
 	translate(treeX,groundY);

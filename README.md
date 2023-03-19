@@ -1,1 +1,1 @@
-I have added a yellow light under the ship which added a spot of colour and allows the trees to be lit up. This adds some colour to the design and helps add a focal poin to the ship.
+I have added these grey clouds that move across the screen at a different rate from the trees. something is missing from the I am not sure whether it is the scale colour or lack of stroke so I will need to have a play. 
