@@ -1,1 +1,1 @@
-I expreimented with added some small circles as extra details to the ufo which I think look better. I also tried adding kind of a roving scanner effect out front of the ufo which doesn't work at all. 
+I have added a yellow light under the ship which added a spot of colour and allows the trees to be lit up. This adds some colour to the design and helps add a focal poin to the ship.

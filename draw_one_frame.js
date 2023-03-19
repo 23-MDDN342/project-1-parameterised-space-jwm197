@@ -10,9 +10,10 @@ function draw_one_frame(cur_frac) {
 	push(); 
 	translate(0, canvasHeight/6);
 	
+	
+	drawTree();
 	drawCharacter();
 	drawGround();
-	drawTree();
 	pop();
 	
 }
@@ -29,7 +30,7 @@ function drawCharacter(){
 	rectMode(CENTER);
 	//stroke(0,0,0);
 	//fill(255,0,255);
-	strokeWeight(width/500);
+	
 	if(frameNo>=jumpStart&&frameNo<=jumpTop){
 		characterY=map(frameNo, jumpStart, jumpTop, groundY-canvasHeight/10, jumpHeight);
 	}
@@ -43,6 +44,27 @@ function drawCharacter(){
 	let shipX=width/5;
 	let shipWidth=width/10;
 	let lightDomewidth=width/50;
+	noStroke();
+	//inner light
+	fill(242, 226, 5,200);
+	beginShape();
+	vertex(shipX-lightDomewidth/2,characterY+canvasHeight/50);
+	vertex(shipX+lightDomewidth/2,characterY+canvasHeight/50);
+	vertex(shipX+width/30,characterY+height/4);
+	vertex(shipX-width/30,characterY+height/4);
+	endShape(CLOSE);
+	//wider light
+	fill(242, 226, 5,100);
+	vertex(shipX-lightDomewidth/2,characterY+canvasHeight/50);
+	vertex(shipX+lightDomewidth/2,characterY+canvasHeight/50);
+	vertex(shipX+width/20,characterY+height/4);
+	vertex(shipX-width/20,characterY+height/4);
+	endShape(CLOSE);
+
+	//draw the ship
+	stroke(0);
+	strokeWeight(width/500);
+	fill(255,255,255);
 	ellipse(shipX,characterY+canvasHeight/50,lightDomewidth,width/60);//bottom dome
 	ellipse(shipX,characterY,shipWidth,canvasHeight/30);//main body
 	arc(shipX,characterY-canvasHeight/60,width/30,width/30,160,20,CHORD);//top dome
@@ -51,25 +73,9 @@ function drawCharacter(){
 	ellipse(shipX,characterY+canvasHeight/180,width/150);// centre small circle
 	ellipse(shipX-width/40,characterY,width/150);//left
 	ellipse(shipX+width/40,characterY,width/150);//right
-
-	// //fill(242, 226, 5);
-	// beginShape();
-
-	// endShape();
-	let scanlineY;
-	if(frameNo<12){
-		scanlineY=map(frameNo, 0, 11, 0, canvasHeight/25);
-	}
-	else {
-		scanlineY=map(frameNo, 12, 24,canvasHeight/25,0);
-	}
-	line(shipX+shipWidth/2,characterY,shipX+shipWidth,characterY+scanlineY);
-	line(shipX+shipWidth/2,characterY,shipX+shipWidth,characterY-scanlineY);
-
-
 }
 function drawGround(cur_frac){
-	line(0, groundY, width, groundY);
+	
 
 	//code adapted from the in class noise example 
 	let mainColor = color(255,255,255); // white
@@ -84,10 +90,13 @@ function drawGround(cur_frac){
 		noiseColor = getNoiseValue(pixelSize*x,pixelSize*y, 0.8, "noiseColor",0,1, 200 );
 		noiseLerp = lerpColor(mainColor,backupColor,noiseColor);
 		fill(noiseLerp);
-		noStroke();
+		stroke(noiseLerp);
 		rect(pixelSize*x,groundY+pixelSize*y ,pixelSize);
 		}
 	}
+	stroke(0);
+	strokeWeight(width/500);
+	line(0, groundY, width, groundY);
 }
 function drawTree(){
 	rectMode(CENTER);
