@@ -1,3 +1,4 @@
+const ease = new p5.Ease();
 const groundY=canvasHeight/2;
 let frameNo=0;
 function draw_one_frame(cur_frac) {
@@ -9,7 +10,7 @@ function draw_one_frame(cur_frac) {
 	push(); 
 	translate(0, canvasHeight/6);
 	drawTree();
-	drawShip();
+	drawShip(cur_frac);
 	drawGround();
 	pop();
 	drawCloud();
@@ -33,22 +34,35 @@ function drawCloud(){
 	
 
 }
-function drawShip(){
-	const jumpStart=7;
+function drawShip(cur_frac){
+	const jumpStart=9;
 	const jumpEnd=18;
-	const jumpTop=(jumpStart+jumpEnd)/2;
+	const jumpTop=(jumpStart+jumpEnd)/2-1;
 	const jumpHeight=canvasHeight/4;
-	let characterY=groundY-canvasHeight/10;
+	let shipY=groundY-canvasHeight/10;
+	//const ease_amount_across = ease.doubleCircularOgee(cur_frac*2, 0.5);
+	const ease_amount_across = ease.circularInOut(cur_frac*1.5);
 	rectMode(CENTER);
+	//work out ship height:
 	if(frameNo>=jumpStart&&frameNo<=jumpTop){
-		characterY=map(frameNo, jumpStart, jumpTop, groundY-canvasHeight/10, jumpHeight);
+		shipY=map(ease_amount_across, 0, 1, groundY-canvasHeight/10, jumpHeight);
 	}
 	else if(frameNo>=jumpTop&&frameNo<=jumpEnd){
-		characterY=map(frameNo, jumpTop, jumpEnd,jumpHeight, groundY-(canvasHeight/10));
+		shipY=map(frameNo, jumpTop, jumpEnd,jumpHeight, groundY-(canvasHeight/10));
+		//shipY=map(ease_amount_across, 0, 1,jumpHeight, groundY-(canvasHeight/10));
 	}
 	else{
-		characterY=groundY-(canvasHeight/10);
+		shipY=groundY-(canvasHeight/10);
 	}
+	// if(frameNo>=jumpStart&&frameNo<=jumpTop){
+	// 	shipY=map(frameNo, jumpStart, jumpTop, groundY-canvasHeight/10, jumpHeight);
+	// }
+	// else if(frameNo>=jumpTop&&frameNo<=jumpEnd){
+	// 	shipY=map(frameNo, jumpTop, jumpEnd,jumpHeight, groundY-(canvasHeight/10));
+	// }
+	// else{
+	// 	shipY=groundY-(canvasHeight/10);
+	// }
 	
 	let shipX=width/5;
 	let shipWidth=width/10;
@@ -57,47 +71,45 @@ function drawShip(){
 	//inner light
 	fill(242, 226, 5,200);
 	beginShape();
-	vertex(shipX-lightDomewidth/2,characterY+canvasHeight/50);
-	vertex(shipX+lightDomewidth/2,characterY+canvasHeight/50);
-	vertex(shipX+width/30,characterY+height/4);
-	vertex(shipX-width/30,characterY+height/4);
+	vertex(shipX-lightDomewidth/2,shipY+canvasHeight/50);
+	vertex(shipX+lightDomewidth/2,shipY+canvasHeight/50);
+	vertex(shipX+width/30,shipY+height/4);
+	vertex(shipX-width/30,shipY+height/4);
 	endShape(CLOSE);
 	//wider light
 	fill(242, 226, 5,100);
-	vertex(shipX-lightDomewidth/2,characterY+canvasHeight/50);
-	vertex(shipX+lightDomewidth/2,characterY+canvasHeight/50);
-	vertex(shipX+width/20,characterY+height/4);
-	vertex(shipX-width/20,characterY+height/4);
+	vertex(shipX-lightDomewidth/2,shipY+canvasHeight/50);
+	vertex(shipX+lightDomewidth/2,shipY+canvasHeight/50);
+	vertex(shipX+width/20,shipY+height/4);
+	vertex(shipX-width/20,shipY+height/4);
 	endShape(CLOSE);
 
 	//draw the ship
 	stroke(0);
 	strokeWeight(width/500);
 	fill(255);
-	ellipse(shipX,characterY+canvasHeight/50,lightDomewidth,width/60);//bottom dome
-	ellipse(shipX,characterY,shipWidth,canvasHeight/30);//main body
-	arc(shipX,characterY-canvasHeight/60,width/30,width/30,160,20,CHORD);//top dome
+	ellipse(shipX,shipY+canvasHeight/50,lightDomewidth,width/60);//bottom dome
+	ellipse(shipX,shipY,shipWidth,canvasHeight/30);//main body
+	arc(shipX,shipY-canvasHeight/60,width/30,width/30,160,20,CHORD);//top dome
 	
 	//small circles on the body:
-	ellipse(shipX,characterY+canvasHeight/180,width/150);// centre small circle
-	ellipse(shipX-width/40,characterY,width/150);//left
-	ellipse(shipX+width/40,characterY,width/150);//right
+	ellipse(shipX,shipY+canvasHeight/180,width/150);// centre small circle
+	ellipse(shipX-width/40,shipY,width/150);//left
+	ellipse(shipX+width/40,shipY,width/150);//right
 }
 function drawGround(cur_frac){
 	
 
 	//code adapted from the in class noise example 
-	let mainColor = color(255); // white
-	let backupColor = color(230,230,230); // grey
 	let noiseColor;
-	let pixelSize = width/50;
-	fill(mainColor);
+	let pixelSize = width/100;
+	//fill(mainColor);
 	rectMode(CORNER);
 	for(let x = 0; x <=width/pixelSize; x++ ){
 		for(let y = 0; y +1 < (height-groundY-canvasHeight/7) /pixelSize; y++){		
 			
 		noiseColor = getNoiseValue(pixelSize*x,pixelSize*y, 0.8, "noiseColor",0,1, width/5 );
-		noiseLerp = lerpColor(mainColor,backupColor,noiseColor);
+		noiseLerp = lerpColor(color(255),color(230,230,230),noiseColor);
 		fill(noiseLerp);
 		stroke(noiseLerp);
 		rect(pixelSize*x,groundY+pixelSize*y ,pixelSize);
