@@ -1,1 +1,1 @@
-I have added these grey clouds that move across the screen at a different rate from the trees. something is missing from the I am not sure whether it is the scale colour or lack of stroke so I will need to have a play. 
+I have cleaned up the code fixing noise scaling and other general improvements. I am trying to decide if I should add a stroke to the clouds and if the ground should move.
