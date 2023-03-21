@@ -6,12 +6,13 @@ function draw_one_frame(cur_frac) {
 	frameNo=map(cur_frac,0,1,0,24);//convert cur fract to a number between 0 and 24 to make it eaiser to  do keyframing 
 	fill(255);
 	rectMode(CORNER);
-	rect(0,0,width,height);//background
+	rect(0,0,width,groundY+canvasHeight/6);//background
 	push(); 
+	
 	translate(0, canvasHeight/6);
 	drawTree();
 	drawShip(cur_frac);
-	drawGround();
+	
 	pop();
 	drawCloud();
 }
@@ -45,24 +46,17 @@ function drawShip(cur_frac){
 	rectMode(CENTER);
 	//work out ship height:
 	if(frameNo>=jumpStart&&frameNo<=jumpTop){
+	// 	shipY=map(frameNo, jumpStart, jumpTop, groundY-canvasHeight/10, jumpHeight);
 		shipY=map(ease_amount_across, 0, 1, groundY-canvasHeight/10, jumpHeight);
 	}
 	else if(frameNo>=jumpTop&&frameNo<=jumpEnd){
 		shipY=map(frameNo, jumpTop, jumpEnd,jumpHeight, groundY-(canvasHeight/10));
-		//shipY=map(ease_amount_across, 0, 1,jumpHeight, groundY-(canvasHeight/10));
 	}
 	else{
 		shipY=groundY-(canvasHeight/10);
 	}
-	// if(frameNo>=jumpStart&&frameNo<=jumpTop){
-	// 	shipY=map(frameNo, jumpStart, jumpTop, groundY-canvasHeight/10, jumpHeight);
-	// }
-	// else if(frameNo>=jumpTop&&frameNo<=jumpEnd){
-	// 	shipY=map(frameNo, jumpTop, jumpEnd,jumpHeight, groundY-(canvasHeight/10));
-	// }
-	// else{
-	// 	shipY=groundY-(canvasHeight/10);
-	// }
+	
+	
 	
 	let shipX=width/5;
 	let shipWidth=width/10;
@@ -102,21 +96,23 @@ function drawGround(){
 
 	//code adapted from the in class noise example 
 	let noiseColor;
-	let pixelSize = width/100;
+	let pixelSize = width/1000;
 	rectMode(CORNER);
 	for(let x = 0; x <=width/pixelSize; x++ ){
 		for(let y = 0; y +1 < (height-groundY-canvasHeight/7) /pixelSize; y++){		
 			
-		noiseColor = getNoiseValue(pixelSize*x,pixelSize*y, 0.8, "noiseColor",0,1, width/5 );
+		noiseColor = getNoiseValue(pixelSize*x,pixelSize*y, 1, "noiseColor",0,1, width/5 );
 		noiseLerp = lerpColor(color(255),color(200,200,200),noiseColor);
 		fill(noiseLerp);
 		stroke(noiseLerp);
 		rect(pixelSize*x,groundY+pixelSize*y ,pixelSize);
 		}
 	}
+	//drawn ground line:
 	stroke(0);
 	strokeWeight(width/500);
 	line(0, groundY, width, groundY);
+	
 }
 function drawTree(){
 	rectMode(CENTER);

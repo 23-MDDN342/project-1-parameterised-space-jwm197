@@ -21,6 +21,14 @@ function setup () {
   let r = random(100);
   main_canvas.parent('canvasContainer');
   frameRate(24 * buffersPerFrame);
+  rect(0,0,width,groundY+canvasHeight/6);
+  push(); 
+	translate(0, canvasHeight/6);
+	
+	drawGround();
+	
+	
+	pop();
 }
 
 function mousePressed(){
@@ -35,8 +43,8 @@ function draw () {
   }
   let cur_frac = map(cur_frame, 0, animation_max_frames, 0, 1);
 
-  background(debugZoomBackground);
-
+  //background(debugZoomBackground);//uncomment line to unbreak debug but the ground won't draw
+ 
   push();
 
   if(debugZoom) {
