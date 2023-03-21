@@ -97,19 +97,18 @@ function drawShip(cur_frac){
 	ellipse(shipX-width/40,shipY,width/150);//left
 	ellipse(shipX+width/40,shipY,width/150);//right
 }
-function drawGround(cur_frac){
+function drawGround(){
 	
 
 	//code adapted from the in class noise example 
 	let noiseColor;
 	let pixelSize = width/100;
-	//fill(mainColor);
 	rectMode(CORNER);
 	for(let x = 0; x <=width/pixelSize; x++ ){
 		for(let y = 0; y +1 < (height-groundY-canvasHeight/7) /pixelSize; y++){		
 			
 		noiseColor = getNoiseValue(pixelSize*x,pixelSize*y, 0.8, "noiseColor",0,1, width/5 );
-		noiseLerp = lerpColor(color(255),color(230,230,230),noiseColor);
+		noiseLerp = lerpColor(color(255),color(200,200,200),noiseColor);
 		fill(noiseLerp);
 		stroke(noiseLerp);
 		rect(pixelSize*x,groundY+pixelSize*y ,pixelSize);
