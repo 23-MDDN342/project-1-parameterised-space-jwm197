@@ -1,9 +1,10 @@
 const ease = new p5.Ease();
 const groundY=canvasHeight/2;
 let frameNo=0;
+
 function draw_one_frame(cur_frac) {
 	angleMode(DEGREES);
-	frameNo=map(cur_frac,0,1,0,24);//convert cur fract to a number between 0 and 24 to make it eaiser to  do keyframing 
+	frameNo=map(cur_frac,0,1,0,24);//convert cur frac to a number between 0 and 24 to make it eaiser to  do keyframing 
 	fill(255);
 	rectMode(CORNER);
 	rect(0,0,width,height);//background
@@ -16,17 +17,28 @@ function draw_one_frame(cur_frac) {
 	pop();
 	drawCloud();
 }
+/**Draw the clouds */
 function drawCloud(){
 	let numOfClouds=4;
 	let cloudY=canvasHeight/4;
 	fill(150);
 	noStroke();
+	let cloudScale;
+	let maxScale=1.1;
+	let minScale=0.9
+	if(frameNo<12){
+		cloudScale=map(frameNo,0,12,minScale,maxScale);
+	}
+	else{
+		cloudScale=map(frameNo,12,24,maxScale,minScale);
+	}
 	
-
 	for(let i=-1;i<numOfClouds;i++){
 		let cloudX=map(frameNo,0,24,canvasWidth/numOfClouds+i*canvasWidth/numOfClouds,+i*canvasWidth/numOfClouds);
 		push();
 		translate(cloudX,cloudY);
+		scale(1.5);
+		scale(cloudScale);
 		ellipse(+width/40,-canvasHeight/200,canvasHeight/30);
 		ellipse(+width/75,-canvasHeight/200,canvasHeight/40);
 		rect(0,0,width/25,canvasHeight/35,20);
@@ -35,18 +47,20 @@ function drawCloud(){
 	
 
 }
+/**draw the ship */
 function drawShip(cur_frac){
+	//keyframes so the ship to change height:
 	const jumpStart=9;
 	const jumpEnd=18;
 	const jumpTop=(jumpStart+jumpEnd)/2-1;
-	const jumpHeight=canvasHeight/4;
+
 	let shipY=groundY-canvasHeight/10;
-	const ease_amount_across = ease.circularInOut(cur_frac*1.5);
+	const jumpHeight=canvasHeight/4;//max ship height
+	const shipRiseEase = ease.circularInOut(cur_frac*1.5);
 	rectMode(CENTER);
 	//work out ship height:
 	if(frameNo>=jumpStart&&frameNo<=jumpTop){
-	// 	shipY=map(frameNo, jumpStart, jumpTop, groundY-canvasHeight/10, jumpHeight);
-		shipY=map(ease_amount_across, 0, 1, groundY-canvasHeight/10, jumpHeight);
+		shipY=map(shipRiseEase, 0, 1, groundY-canvasHeight/10, jumpHeight);
 	}
 	else if(frameNo>=jumpTop&&frameNo<=jumpEnd){
 		shipY=map(frameNo, jumpTop, jumpEnd,jumpHeight, groundY-(canvasHeight/10));
@@ -90,13 +104,14 @@ function drawShip(cur_frac){
 	ellipse(shipX-width/40,shipY,width/150);//left
 	ellipse(shipX+width/40,shipY,width/150);//right
 }
+/**Draws the ground */
 function drawGround(){
-	let voronoiSegments=200;
-	noSmooth();
-	voronoiCellStrokeWeight(width/700);
+	//draws the voronoi pattern
+	let voronoiSegments=70;
+	smooth();
+	voronoiCellStrokeWeight(width/800);
 	voronoiCellStroke(0);
 	voronoiSiteFlag(false);
-
 	randomSeed(6);
 	//code adapted from the in class noise example 
 	let noiseColor;
@@ -104,7 +119,7 @@ function drawGround(){
 	rectMode(CORNER);
 	let x=0;
 	let y=0;
-	for (var i = 0; i < voronoiSegments; i++) {
+	for (let i = 0; i < voronoiSegments; i++) {
 		x=random(0, width);
 		y=random(0,canvasHeight-groundY);
 		noiseColor = getNoiseValue(pixelSize*x,pixelSize*y, 0.1, "noiseColor",0,1, width/5 );
@@ -112,50 +127,33 @@ function drawGround(){
 		voronoiSite(x,y,noiseLerp);
 	}
 	
-	
-	
-	voronoiJitterStepMax(20);
-	voronoiJitterStepMin(5);
-	voronoiJitterFactor(3);
-	voronoiJitterBorder(false);
 	voronoi(width, canvasHeight-groundY-canvasHeight/6, false);
-	push();
+	voronoiDraw(0, groundY, true, false);
 	
-	let treeX=map(frameNo,0,24,canvasWidth/4,0-canvasWidth/20);
-	
-	
-	voronoiDraw(treeX, groundY, true, false);
-	
-	push();
-	translate(width/2+canvasWidth/20,0);
-	voronoiDraw(treeX, groundY, true, false);
-	
-	pop();
-
-
-	//translate(tx,0);
-	//voronoiDraw(0, groundY, true, false);
-	//voronoiDraw(width/2, groundY, true, false);
-	pop();
 	
 	//drawn ground line:
 	stroke(0);
-	strokeWeight(width/500);
+	strokeWeight(width/800);
 	line(0, groundY, width, groundY);
 	
 }
+/**
+ * Draws the trees 
+ */
 function drawTree(){
 	rectMode(CENTER);
 	let trunkHeight=canvasHeight/30;
 	let treeX=map(frameNo,0,24,canvasWidth/2,0-canvasWidth/20);
 	strokeWeight(width/500);
 	stroke(0);
+	//draw left tree
 	line(treeX,groundY,treeX,groundY-trunkHeight);
 	push();
 	translate(treeX,groundY);
 	drawBranch(trunkHeight,0);
 	pop();
 	push();
+	//draw right tree
 	translate(width/2+canvasWidth/20,0);
 	line(treeX,groundY,treeX,groundY-trunkHeight);
 	push();
@@ -164,6 +162,7 @@ function drawTree(){
 	pop();
 	pop();
 }
+/** draw a trees branch*/
 function drawBranch(branchLength,numOfBranches){
 	let angle=340;
 	line(0,0,0,-branchLength);
