@@ -6,13 +6,13 @@ function draw_one_frame(cur_frac) {
 	frameNo=map(cur_frac,0,1,0,24);//convert cur fract to a number between 0 and 24 to make it eaiser to  do keyframing 
 	fill(255);
 	rectMode(CORNER);
-	rect(0,0,width,groundY+canvasHeight/6);//background
+	rect(0,0,width,height);//background
 	push(); 
 	
 	translate(0, canvasHeight/6);
 	drawTree();
 	drawShip(cur_frac);
-	
+	drawGround();
 	pop();
 	drawCloud();
 }
@@ -41,7 +41,6 @@ function drawShip(cur_frac){
 	const jumpTop=(jumpStart+jumpEnd)/2-1;
 	const jumpHeight=canvasHeight/4;
 	let shipY=groundY-canvasHeight/10;
-	//const ease_amount_across = ease.doubleCircularOgee(cur_frac*2, 0.5);
 	const ease_amount_across = ease.circularInOut(cur_frac*1.5);
 	rectMode(CENTER);
 	//work out ship height:
@@ -92,22 +91,37 @@ function drawShip(cur_frac){
 	ellipse(shipX+width/40,shipY,width/150);//right
 }
 function drawGround(){
-	
+	let voronoiSegments=70;
+	noSmooth();
+	voronoiCellStrokeWeight(width/700);
+	voronoiCellStroke(0);
+	voronoiSiteFlag(false);
 
+	randomSeed(6);
 	//code adapted from the in class noise example 
 	let noiseColor;
-	let pixelSize = width/1000;
+	let pixelSize = width/100;
 	rectMode(CORNER);
-	for(let x = 0; x <=width/pixelSize; x++ ){
-		for(let y = 0; y +1 < (height-groundY-canvasHeight/7) /pixelSize; y++){		
-			
-		noiseColor = getNoiseValue(pixelSize*x,pixelSize*y, 1, "noiseColor",0,1, width/5 );
-		noiseLerp = lerpColor(color(255),color(200,200,200),noiseColor);
-		fill(noiseLerp);
-		stroke(noiseLerp);
-		rect(pixelSize*x,groundY+pixelSize*y ,pixelSize);
-		}
+	let x=0;
+	let y=0;
+	for (var i = 0; i < voronoiSegments; i++) {
+		x=random(0, width);
+		y=random(0,canvasHeight-groundY);
+		noiseColor = getNoiseValue(pixelSize*x,pixelSize*y, 0.1, "noiseColor",0,1, width/5 );
+		noiseLerp = lerpColor(color(255),color(200),noiseColor);
+		voronoiSite(x,y,noiseLerp);
 	}
+	
+	
+	
+	voronoiJitterStepMax(20);
+	voronoiJitterStepMin(5);
+	voronoiJitterFactor(3);
+	voronoiJitterBorder(false);
+	voronoi(width, canvasHeight-groundY-canvasHeight/6, false);
+	voronoiDraw(0, groundY, true, false);
+	
+	
 	//drawn ground line:
 	stroke(0);
 	strokeWeight(width/500);
