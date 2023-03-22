@@ -91,7 +91,7 @@ function drawShip(cur_frac){
 	ellipse(shipX+width/40,shipY,width/150);//right
 }
 function drawGround(){
-	let voronoiSegments=70;
+	let voronoiSegments=200;
 	noSmooth();
 	voronoiCellStrokeWeight(width/700);
 	voronoiCellStroke(0);
@@ -119,8 +119,24 @@ function drawGround(){
 	voronoiJitterFactor(3);
 	voronoiJitterBorder(false);
 	voronoi(width, canvasHeight-groundY-canvasHeight/6, false);
-	voronoiDraw(0, groundY, true, false);
+	push();
 	
+	let treeX=map(frameNo,0,24,canvasWidth/4,0-canvasWidth/20);
+	
+	
+	voronoiDraw(treeX, groundY, true, false);
+	
+	push();
+	translate(width/2+canvasWidth/20,0);
+	voronoiDraw(treeX, groundY, true, false);
+	
+	pop();
+
+
+	//translate(tx,0);
+	//voronoiDraw(0, groundY, true, false);
+	//voronoiDraw(width/2, groundY, true, false);
+	pop();
 	
 	//drawn ground line:
 	stroke(0);
