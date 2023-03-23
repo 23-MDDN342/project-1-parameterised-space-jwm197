@@ -122,7 +122,7 @@ function drawGround(){
 	let y=0;
 	for (let i = 0; i < voronoiSegments; i++) {
 		x=random(0, width);
-		y=random(0,canvasHeight-groundY+5);
+		y=random(0,canvasHeight-groundY+canvasHeight/20);
 		noiseColor = getNoiseValue(pixelSize*x,pixelSize*y, 0.8, "noiseColor",0,1, width/5 );
 		noiseLerp = lerpColor(color(255),color(200),noiseColor);
 		voronoiSite(x,y,noiseLerp);

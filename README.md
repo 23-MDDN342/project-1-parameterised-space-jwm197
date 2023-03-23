@@ -1,1 +1,1 @@
-I have scaled the clouds and I think it looks a lot better as there is less negative space in the sky.I also adjusted the voronoi pattern and the bottom becuase there were a few tiny sedgments that looked weird.
+Added ground point generation changes
