@@ -1,1 +1,1 @@
-I have decreased the stroke on the ground as it was drawing too much attention. I have also added a pulsing effect to the clouds to add to the gamelike effect. I still feel like there is something missing in the sky as there is too much white space but I can't put my finger on it.
+I have scaled the clouds and I think it looks a lot better as there is less negative space in the sky.I also adjusted the voronoi pattern and the bottom becuase there were a few tiny sedgments that looked weird.

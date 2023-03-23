@@ -49,7 +49,7 @@ function drawCloud(){
 }
 /**draw the ship */
 function drawShip(cur_frac){
-	//keyframes so the ship to change height:
+	//keyframes for the ship to change on height:
 	const jumpStart=9;
 	const jumpEnd=18;
 	const jumpTop=(jumpStart+jumpEnd)/2-1;
@@ -59,13 +59,13 @@ function drawShip(cur_frac){
 	const shipRiseEase = ease.circularInOut(cur_frac*1.5);
 	rectMode(CENTER);
 	//work out ship height:
-	if(frameNo>=jumpStart&&frameNo<=jumpTop){
+	if(frameNo>=jumpStart&&frameNo<=jumpTop){//rising in height
 		shipY=map(shipRiseEase, 0, 1, groundY-canvasHeight/10, jumpHeight);
 	}
-	else if(frameNo>=jumpTop&&frameNo<=jumpEnd){
+	else if(frameNo>=jumpTop&&frameNo<=jumpEnd){//lowering in height
 		shipY=map(frameNo, jumpTop, jumpEnd,jumpHeight, groundY-(canvasHeight/10));
 	}
-	else{
+	else{//default "on the ground" height
 		shipY=groundY-(canvasHeight/10);
 	}
 	
@@ -100,9 +100,10 @@ function drawShip(cur_frac){
 	arc(shipX,shipY-canvasHeight/60,width/30,width/30,160,20,CHORD);//top dome
 	
 	//small circles on the body:
-	ellipse(shipX,shipY+canvasHeight/180,width/150);// centre small circle
-	ellipse(shipX-width/40,shipY,width/150);//left
-	ellipse(shipX+width/40,shipY,width/150);//right
+	let smallCircleWidth=width/150;
+	ellipse(shipX,shipY+canvasHeight/180,smallCircleWidth);// centre small circle
+	ellipse(shipX-width/40,shipY,smallCircleWidth);//left
+	ellipse(shipX+width/40,shipY,smallCircleWidth);//right
 }
 /**Draws the ground */
 function drawGround(){
@@ -121,8 +122,8 @@ function drawGround(){
 	let y=0;
 	for (let i = 0; i < voronoiSegments; i++) {
 		x=random(0, width);
-		y=random(0,canvasHeight-groundY);
-		noiseColor = getNoiseValue(pixelSize*x,pixelSize*y, 0.1, "noiseColor",0,1, width/5 );
+		y=random(0,canvasHeight-groundY+5);
+		noiseColor = getNoiseValue(pixelSize*x,pixelSize*y, 0.8, "noiseColor",0,1, width/5 );
 		noiseLerp = lerpColor(color(255),color(200),noiseColor);
 		voronoiSite(x,y,noiseLerp);
 	}
