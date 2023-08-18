@@ -1,13 +1,3 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-c66648af7eb3fe8bc4f294546bfd86ef473780cde1dea487d3c4ff354943c9ae.svg)](https://classroom.github.com/online_ide?assignment_repo_id=10300343&assignment_repo_type=AssignmentRepo)
-### 2023 MDDN342 Project 1: Parameterised Space
-EXAMPLE README 
-
-My design is inspired by fireworks and flowers. I want it to be full of changes, so that every frame can have a fresh feeling.
-
-In terms of concrete performance, I draw different geometric figures, let them spread out, and overlay their number at the same time, through the time difference to make the whole dynamic background become enthusiastic.
-
-In terms of color, I made different shapes correspond to different colors, and changed the parameters so that they were different every time they appeared, so that there would be differences between different loops.
-
-In the initial design, I only added the circle. Through the color change of the circle and the superposition of the movement track, although it has a good effect, I think it is too monotonous.
-
-In the later stages, I added a lot of geometric shapes, which made the color and pattern more variable.
+I created this using javascript and p5js to create a 1 second looping background that could be used as a zoom background. This project is heavily inspired by the Google Chrome no internet game. I challenged myself to work in greyscale colours something I never really do in my design although I did implement a spot colour. 
+My inital design was more about replacating the design exactly in my own style including having a dinosaur as a character but as the project went along I branched out to be more original in creating elements such as the ufo instead of a dinosaur and veronoi pattern as supposed to lots of rectangles. The Voronoi pattern was created using https://github.com/Dozed12/p5.voronoi
+Throughout this project I have battled a lot of performance issues due to the amount of computation the code does between the recursion generating the fractal trees and the noise on the ground. As a result I was battling performance issues so had to factor that in to my design. I was unable to complete fix it so for the best experience it is viewed from finalVersion.gif as there is some lag in the browser. I am however very happy with the end result as I think it will be quite a satifying zoom background.  
